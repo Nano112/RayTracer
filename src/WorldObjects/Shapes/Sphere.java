@@ -1,8 +1,8 @@
 package WorldObjects.Shapes;
 
-import Math.Vector.Vector3;
-import Math.IntersectData;
-import Math.Ray;
+import MyMath.Vector.Vector3;
+import MyMath.IntersectData;
+import MyMath.Ray;
 
 public class Sphere extends Shape
 {
@@ -15,7 +15,7 @@ public class Sphere extends Shape
         this.position = p;
         this.radius = r;
     }
-
+    @Override
     public IntersectData intersectWithRay(Ray ray)
     {
         IntersectData intersect = new IntersectData();

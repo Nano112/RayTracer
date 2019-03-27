@@ -1,4 +1,4 @@
-package Math.Vector;
+package MyMath.Vector;
 
 public class Vector3
 {

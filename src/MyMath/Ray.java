@@ -1,7 +1,7 @@
-package Math;
+package MyMath;
 
 import Graphics.Color;
-import Math.Vector.Vector3;
+import MyMath.Vector.Vector3;
 
 public class Ray
 {

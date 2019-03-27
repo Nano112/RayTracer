@@ -1,6 +1,6 @@
 package WorldObjects;
 
-import Math.Vector.Vector3;
+import MyMath.Vector.Vector3;
 
 public class LightSource
 {

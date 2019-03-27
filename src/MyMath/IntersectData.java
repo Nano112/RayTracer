@@ -1,6 +1,6 @@
-package Math;
+package MyMath;
 
-import Math.Vector.Vector3;
+import MyMath.Vector.Vector3;
 
 public class IntersectData
 {
@@ -8,6 +8,7 @@ public class IntersectData
     private Vector3 position;
     private Vector3 normal;
     private float t;
+    private int objectIndex;
 
     public IntersectData()
     {
@@ -17,7 +18,7 @@ public class IntersectData
         this.t= 0;
     }
 
-    public boolean isDoesIntersect() {
+    public boolean getDoesIntersect() {
         return doesIntersect;
     }
 
