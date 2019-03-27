@@ -55,6 +55,7 @@ public class Scene
 
          }
      }
+     return null;
     }
 
     public Image renderScene(int width, int height, float fov)
