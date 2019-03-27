@@ -49,4 +49,12 @@ public class IntersectData
     public void setNormal(Vector3 normal) {
         this.normal = normal;
     }
+
+    public int getObjectIndex() {
+        return objectIndex;
+    }
+
+    public void setObjectIndex(int objectIndex) {
+        this.objectIndex = objectIndex;
+    }
 }

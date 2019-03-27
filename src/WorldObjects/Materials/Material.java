@@ -2,7 +2,7 @@ package WorldObjects.Materials;
 
 import Graphics.Color;
 
-public class Material
+public abstract class Material
 {
     private Color albedo;
 

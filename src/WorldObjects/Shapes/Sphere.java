@@ -3,16 +3,16 @@ package WorldObjects.Shapes;
 import MyMath.Vector.Vector3;
 import MyMath.IntersectData;
 import MyMath.Ray;
+import WorldObjects.Materials.Material;
 
 public class Sphere extends Shape
 {
-
-    private Vector3 position;
     private float radius;
+
 
     public Sphere(Vector3 p, float r)
     {
-        this.position = p;
+        super.position = p;
         this.radius = r;
     }
     @Override
@@ -20,8 +20,8 @@ public class Sphere extends Shape
     {
         IntersectData intersect = new IntersectData();
         float a = 1;
-        float b = 2 * ray.getDirection().dot(ray.getPosition().sub(this.position));
-        float c = ray.getPosition().sub(this.position).magnitudeSquared() - (this.radius * this.radius);
+        float b = 2 * ray.getDirection().dot(ray.getPosition().sub(super.position));
+        float c = ray.getPosition().sub(super.position).magnitudeSquared() - (this.radius * this.radius);
         float delta = (b * b) - (4 * a * c);
 
         if ( delta < 0 )
@@ -51,18 +51,8 @@ public class Sphere extends Shape
         intersect.setDoesIntersect(true);
         intersect.setT(t);
         intersect.setPosition(ray.getPosition().add(ray.getDirection().mul(t)));
-        intersect.setNormal(position.sub(this.position).normalize());
+        intersect.setNormal(intersect.getPosition().sub(super.position).normalize());
         return intersect;
-    }
-
-    public Vector3 getPosition()
-    {
-        return position;
-    }
-
-    public void setPosition(Vector3 position)
-    {
-        this.position = position;
     }
 
     public float getRadius()
@@ -74,4 +64,5 @@ public class Sphere extends Shape
     {
         this.radius = radius;
     }
+
 }

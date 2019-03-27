@@ -4,6 +4,7 @@ import MyMath.IntersectData;
 import MyMath.Ray;
 import MyMath.Vector.Vector3;
 import WorldObjects.Materials.Material;
+import WorldObjects.Materials.Reflective;
 import WorldObjects.Shapes.Shape;
 
 import java.awt.image.BufferedImage;
@@ -34,14 +35,26 @@ public class Scene
                 closestIndex = i;
             }
         }
-
-        return this.shapes.get(closestIndex).intersectWithRay();
+        id = this.shapes.get(closestIndex).intersectWithRay();
+        id.setObjectIndex(closestIndex);
+        return id;
     }
 
-    public Color getLuminosity(Ray ray)
+    public Color getLuminosity(Ray ray, int iterations, int maxIterations)
     {
-        Color color = new Color(0,0,0);
-        return color;
+     if(iterations >= maxIterations)
+     {
+         return new Color(0, 0, 0);
+     }
+     IntersectData id = getIntersect(ray);
+
+     if (id.getDoesIntersect())
+     {
+         if(this.shapes.get(id.getObjectIndex()).getMaterial() instanceof Reflective)
+         {
+
+         }
+     }
     }
 
     public Image renderScene(int width, int height, float fov)
@@ -54,7 +67,7 @@ public class Scene
             {
                 Vector3 direction = new Vector3(x - width / 2, y - height / 2, -width / (2 * (float)Math.tan(fov / 2))).normalize();
                 Ray ray = new Ray(new Vector3(0, 0 ,0), direction );
-                Color color = getLuminosity(ray);
+                Color color = getLuminosity(ray, 0,10);
                 image.setPixel(x, y, color);
             }
         }
