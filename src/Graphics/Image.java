@@ -26,7 +26,7 @@ public class Image
 
     }
 
-    public void saveImage(String name) throws IOException
+    public void save(String name) throws IOException
     {
         File outputFile = new File(name);
         ImageIO.write(this.image, "bmp", outputFile);

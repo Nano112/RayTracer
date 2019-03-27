@@ -1,7 +1,7 @@
 import Graphics.Image;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
+
 
 public class Main {
 
@@ -9,8 +9,7 @@ public class Main {
     {
         Image image = new Image(200,200);
 
-
-
+        image.save("out");
     }
 
 

@@ -1,7 +1,5 @@
 package WorldObjects.Shapes;
 
-import Math.Position;
-
 public class Sphere extends Shape
 {
     private Position position;

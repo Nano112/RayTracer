@@ -1,5 +1,6 @@
-package WorldObjects.Shapes;
+package WorldObjects;
 
 public class LightSource
 {
+
 }
