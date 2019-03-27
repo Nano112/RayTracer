@@ -1,8 +1,8 @@
-package WorldObjects.Shape;
+package WorldObjects.Shapes;
 
-import WorldObjects.Position;
+import Math.Position;
 
-public class Sphere
+public class Sphere extends Shape
 {
     private Position position;
     private float radius;

@@ -1,4 +1,4 @@
-package WorldObjects;
+package Math;
 
 public class Position
 {
