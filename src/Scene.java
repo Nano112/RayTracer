@@ -1,6 +1,5 @@
 import WorldObjects.Materials.Material;
 import WorldObjects.Shapes.Shape;
-
 import java.util.List;
 
 public class Scene
