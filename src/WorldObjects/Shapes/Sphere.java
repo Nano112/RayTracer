@@ -15,7 +15,8 @@ public class Sphere extends Shape
         super.position = p;
         this.radius = r;
     }
-    @Override
+
+
     public IntersectData intersectWithRay(Ray ray)
     {
         IntersectData intersect = new IntersectData();
@@ -50,8 +51,9 @@ public class Sphere extends Shape
 
         intersect.setDoesIntersect(true);
         intersect.setT(t);
-        intersect.setPosition(ray.getPosition().add(ray.getDirection().mul(t)));
-        intersect.setNormal(intersect.getPosition().sub(super.position).normalize());
+        Vector3 position = ray.getPosition().add(ray.getDirection().mul(t));
+        Vector3 normal = position.sub(super.position).normalize();
+        intersect.setIntersectRay(new Ray(position, normal));
         return intersect;
     }
 

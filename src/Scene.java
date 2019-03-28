@@ -52,7 +52,13 @@ public class Scene
      {
          if(this.shapes.get(id.getObjectIndex()).getMaterial() instanceof Reflective)
          {
-
+            Vector3 reflectionDirection =  ray.getDirection().sub(id.getIntersectRay().getDirection().mul(2*id.getIntersectRay().getDirection().dot(ray.getDirection())));
+            Ray reflectionRay = new Ray(id.getIntersectRay().getPosition().add(id.getIntersectRay().getDirection().mul(0.001f)), reflectionDirection);
+            return getLuminosity(reflectionRay, iterations + 1, maxIterations);
+         }
+         else
+         {
+             Ray lightRay = new Ray(id.getIntersectRay().getPosition().add(id.getIntersectRay().getDirection().add(0.001f)),)
          }
      }
      return null;
@@ -66,7 +72,7 @@ public class Scene
         {
             for (int y = 0; y < height;++y)
             {
-                Vector3 direction = new Vector3(x - width / 2, y - height / 2, -width / (2 * (float)Math.tan(fov / 2))).normalize();
+                Vector3 direction = new Vector3(x - width / 2f, y - height / 2f, -width / (2 * (float)Math.tan(fov / 2))).normalize();
                 Ray ray = new Ray(new Vector3(0, 0 ,0), direction );
                 Color color = getLuminosity(ray, 0,10);
                 image.setPixel(x, y, color);

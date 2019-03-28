@@ -37,6 +37,14 @@ public class Vector3
         return new Vector3(x, y, z);
     }
 
+    public Vector3 mul(Vector3 b)
+    {
+        float x = this.x * b.x;
+        float y = this.y * b.x;
+        float z = this.z * b.x;
+        return new Vector3(x, y, z);
+    }
+
     public Vector3 div(float b)
     {
         float x = this.x / b;

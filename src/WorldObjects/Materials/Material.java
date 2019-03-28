@@ -6,9 +6,6 @@ public abstract class Material
 {
     private Color albedo;
 
-
-
-
     public Color getAlbedo()
     {
         return albedo;

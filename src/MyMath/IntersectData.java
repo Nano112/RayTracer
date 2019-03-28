@@ -5,16 +5,14 @@ import MyMath.Vector.Vector3;
 public class IntersectData
 {
     private boolean doesIntersect;
-    private Vector3 position;
-    private Vector3 normal;
+    private Ray intersectRay;
     private float t;
     private int objectIndex;
 
     public IntersectData()
     {
         this.doesIntersect = false;
-        this.position = null;
-        this.normal = null;
+        this.intersectRay = null;
         this.t= 0;
     }
 
@@ -34,27 +32,21 @@ public class IntersectData
         this.t = t;
     }
 
-    public Vector3 getPosition() {
-        return position;
-    }
-
-    public void setPosition(Vector3 position) {
-        this.position = position;
-    }
-
-    public Vector3 getNormal() {
-        return normal;
-    }
-
-    public void setNormal(Vector3 normal) {
-        this.normal = normal;
-    }
-
     public int getObjectIndex() {
         return objectIndex;
     }
 
     public void setObjectIndex(int objectIndex) {
         this.objectIndex = objectIndex;
+    }
+
+    public Ray getIntersectRay()
+    {
+        return intersectRay;
+    }
+
+    public void setIntersectRay(Ray intersectRay)
+    {
+        this.intersectRay = intersectRay;
     }
 }
