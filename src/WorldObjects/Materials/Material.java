@@ -4,7 +4,7 @@ import Graphics.Color;
 
 public abstract class Material
 {
-    private Color albedo;
+    protected Color albedo;
 
     public Color getAlbedo()
     {

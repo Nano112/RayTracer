@@ -10,6 +10,7 @@ public class Image
     private int width;
     private int height;
     private BufferedImage image;
+
     public Image(int width, int height)
     {
         this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -28,7 +29,8 @@ public class Image
 
     public void save(String name) throws IOException
     {
-        File outputFile = new File(name);
+
+        File outputFile = new File(name+".bmp");
         ImageIO.write(this.image, "bmp", outputFile);
     }
 

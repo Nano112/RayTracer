@@ -5,15 +5,17 @@ import MyMath.IntersectData;
 import MyMath.Ray;
 import WorldObjects.Materials.Material;
 
+
 public class Sphere extends Shape
 {
     private float radius;
 
 
-    public Sphere(Vector3 p, float r)
+    public Sphere(Vector3 p, float r, Material m)
     {
         super.position = p;
         this.radius = r;
+        super.material = m;
     }
 
 
@@ -54,7 +56,18 @@ public class Sphere extends Shape
         Vector3 position = ray.getPosition().add(ray.getDirection().mul(t));
         Vector3 normal = position.sub(super.position).normalize();
         intersect.setIntersectRay(new Ray(position, normal));
+        intersect.print();
         return intersect;
+    }
+
+
+    public void print()
+    {
+        System.out.println("I am a sphere");
+        System.out.println("Position");
+        this.position.print();
+        System.out.println("Radius");
+        System.out.println(this.radius);
     }
 
     public float getRadius()

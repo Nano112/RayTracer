@@ -12,6 +12,10 @@ public class Vector3
         this.y = 0;
         this.z = 0;
     }
+    public void print()
+    {
+        System.out.println("X: " + this.x + " Y: " + this.y + " Z: " + this.z);
+    }
 
     public Vector3(float x, float y, float z)
     {

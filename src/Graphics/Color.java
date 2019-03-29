@@ -15,6 +15,11 @@ public class Color
         this.b = b;
     }
 
+    public void print()
+    {
+        System.out.println("R:"+this.r+" G:"+this.g+" B:"+this.b);
+    }
+
     public int rgbToHex()
     {
         int hex = this.r;

@@ -1,7 +1,5 @@
 package MyMath;
 
-import MyMath.Vector.Vector3;
-
 public class IntersectData
 {
     private boolean doesIntersect;
@@ -14,6 +12,22 @@ public class IntersectData
         this.doesIntersect = false;
         this.intersectRay = null;
         this.t= 0;
+    }
+
+    public void print()
+    {
+        System.out.println("Does Intersect: ");
+        System.out.println(this.doesIntersect);
+        if (this.doesIntersect)
+        {
+            System.out.println("Ray: ");
+            this.intersectRay.print();
+            System.out.println("T: ");
+            System.out.println(this.t);
+            System.out.println("ObjectIndex: ");
+            System.out.println(this.objectIndex);
+        }
+
     }
 
     public boolean getDoesIntersect() {

@@ -18,6 +18,14 @@ public class Ray
         this.luminosity = 0;
     }
 
+    public void print()
+    {
+        System.out.println("Position");
+        this.getPosition().print();
+        System.out.println("Direction");
+        this.getPosition().print();
+    }
+
     public Vector3 getPosition() {
         return position;
     }

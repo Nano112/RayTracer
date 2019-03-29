@@ -9,13 +9,8 @@ public abstract class Shape
 {
     protected Vector3 position;
     protected Material material;
-    public IntersectData intersectWithRay() {
-
-        return new IntersectData();
-    }
-
+    public abstract void print();
     public abstract IntersectData intersectWithRay(Ray ray);
-
     public Material getMaterial() {
         return material;
     }
