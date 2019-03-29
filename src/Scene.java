@@ -3,6 +3,7 @@ import Graphics.Image;
 import MyMath.IntersectData;
 import MyMath.Ray;
 import MyMath.Vector.Vector3;
+import WorldObjects.LightSource;
 import WorldObjects.Materials.Material;
 import WorldObjects.Materials.Reflective;
 import WorldObjects.Shapes.Shape;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class Scene
 {
+    private LightSource light;
     private List<Shape> shapes;
     private List<Material> material;
 
@@ -42,14 +44,16 @@ public class Scene
 
     public Color getLuminosity(Ray ray, int iterations, int maxIterations)
     {
+        Color color =  new Color(0, 0, 0);
      if(iterations >= maxIterations)
      {
-         return new Color(0, 0, 0);
+         return color;
      }
      IntersectData id = getIntersect(ray);
 
      if (id.getDoesIntersect())
      {
+         Vector3 intensity = new Vector3();
          if(this.shapes.get(id.getObjectIndex()).getMaterial() instanceof Reflective)
          {
             Vector3 reflectionDirection =  ray.getDirection().sub(id.getIntersectRay().getDirection().mul(2*id.getIntersectRay().getDirection().dot(ray.getDirection())));
@@ -58,7 +62,20 @@ public class Scene
          }
          else
          {
-             Ray lightRay = new Ray(id.getIntersectRay().getPosition().add(id.getIntersectRay().getDirection().add(0.001f)),)
+             Ray lightRay = new Ray(id.getIntersectRay().getPosition().add(id.getIntersectRay().getDirection().mul(0.001f)),this.light.getPosition().sub(id.getIntersectRay().getPosition()).normalize());
+             IntersectData idClosestLight = getIntersect(lightRay);
+             if (idClosestLight.getDoesIntersect() && idClosestLight.getT()*idClosestLight.getT() < this.light.getPosition().sub(id.getIntersectRay().getPosition()).magnitudeSquared())
+             {
+                 return new Color(0,0,0);
+             }
+             else
+             {
+                 intensity = this.getMaterial().get(idClosestLight.getObjectIndex()).getAlbedo().toVec().mul(this.light.getIntensity() * this.light.getPosition().sub(id.getIntersectRay().getPosition()).normalize().dot(id.getIntersectRay().getDirection())).div((float)Math.sqrt(this.light.getPosition().sub(id.getIntersectRay().getPosition()).magnitudeSquared()));
+             }
+             int r = Math.min(255, Math.max(0, (int)Math.pow(intensity.getX(),1 / 2.2)));
+             int g = Math.min(255, Math.max(0, (int)Math.pow(intensity.getY(),1 / 2.2)));
+             int b = Math.min(255, Math.max(0, (int)Math.pow(intensity.getZ(),1 / 2.2)));
+             return new Color(r,g,b);
          }
      }
      return null;
@@ -99,5 +116,15 @@ public class Scene
     public void setMaterial(List<Material> material)
     {
         this.material = material;
+    }
+
+    public LightSource getLight()
+    {
+        return light;
+    }
+
+    public void setLight(LightSource light)
+    {
+        this.light = light;
     }
 }

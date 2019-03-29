@@ -1,5 +1,7 @@
 package Graphics;
 
+import MyMath.Vector.Vector3;
+
 public class Color
 {
     private int r;
@@ -19,6 +21,11 @@ public class Color
         hex = hex<<8 + this.g;
         hex = hex<<8 + this.b;
         return hex;
+    }
+
+    public Vector3 toVec()
+    {
+        return new Vector3(this.r,this.g,this.b);
     }
 
     public int getR()
