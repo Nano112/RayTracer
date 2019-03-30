@@ -23,8 +23,8 @@ public class Color
     public int rgbToHex()
     {
         int hex = this.r;
-        hex = hex<<8 + this.g;
-        hex = hex<<8 + this.b;
+        hex = (hex << 8) + this.g;
+        hex = (hex << 8) + this.b;
         return hex;
     }
 

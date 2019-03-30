@@ -1,10 +1,10 @@
 package WorldObjects.Materials;
 
-import Graphics.Color;
+import MyMath.Vector.Vector3;
 
 public class Opaque extends Material
 {
-    public Opaque(Color albedo)
+    public Opaque(Vector3 albedo)
     {
         super.albedo = albedo;
     }

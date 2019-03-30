@@ -4,7 +4,7 @@ public class IntersectData
 {
     private boolean doesIntersect;
     private Ray intersectRay;
-    private float t;
+    private double t;
     private int objectIndex;
 
     public IntersectData()
@@ -38,11 +38,11 @@ public class IntersectData
         this.doesIntersect = doesIntersect;
     }
 
-    public float getT() {
+    public double getT() {
         return t;
     }
 
-    public void setT(float t) {
+    public void setT(double t) {
         this.t = t;
     }
 

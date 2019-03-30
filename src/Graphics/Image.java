@@ -29,8 +29,15 @@ public class Image
 
     public void save(String name) throws IOException
     {
+        File tmpDir = new File("outputFrames");
+        boolean exists = tmpDir.exists();
+        if (!exists)
+        {
+            File dir = new File("outputFrames");
+            dir.mkdir();
+        }
 
-        File outputFile = new File(name+".bmp");
+        File outputFile = new File("outputFrames/"+name+".bmp");
         ImageIO.write(this.image, "bmp", outputFile);
     }
 

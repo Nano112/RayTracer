@@ -1,17 +1,18 @@
 package WorldObjects.Materials;
 
-import Graphics.Color;
+
+import MyMath.Vector.Vector3;
 
 public abstract class Material
 {
-    protected Color albedo;
+    protected Vector3 albedo;
 
-    public Color getAlbedo()
+    public Vector3 getAlbedo()
     {
         return albedo;
     }
 
-    public void setAlbedo(Color albedo)
+    public void setAlbedo(Vector3 albedo)
     {
         this.albedo = albedo;
     }

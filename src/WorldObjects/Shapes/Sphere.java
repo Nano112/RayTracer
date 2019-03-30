@@ -8,10 +8,10 @@ import WorldObjects.Materials.Material;
 
 public class Sphere extends Shape
 {
-    private float radius;
+    private double radius;
 
 
-    public Sphere(Vector3 p, float r, Material m)
+    public Sphere(Vector3 p, double r, Material m)
     {
         super.position = p;
         this.radius = r;
@@ -22,41 +22,44 @@ public class Sphere extends Shape
     public IntersectData intersectWithRay(Ray ray)
     {
         IntersectData intersect = new IntersectData();
-        float a = 1;
-        float b = 2 * ray.getDirection().dot(ray.getPosition().sub(super.position));
-        float c = ray.getPosition().sub(super.position).magnitudeSquared() - (this.radius * this.radius);
-        float delta = (b * b) - (4 * a * c);
+        double a = 1;
+        double b = 2 * ray.getDirection().dot(ray.getPosition().sub(super.position));
+        double c = ray.getPosition().sub(super.position).magnitudeSquared() - (this.radius * this.radius);
+
+
+
+        double delta = (b * b) - (4 * a * c);
 
         if ( delta < 0 )
         {
             return intersect;
         }
 
-        float t1 = (float) (-b - Math.sqrt(delta) / (2 * a));
-        float t2 = (float) (-b + Math.sqrt(delta) / (2 * a));
+        double t1 = (double) (-b - Math.sqrt(delta)) / (2 * a);
+        double t2 = (double) (-b + Math.sqrt(delta)) / (2 * a);
+
 
         if ( t2 < 0)
         {
             return intersect;
         }
 
-        float t;
+        double t;
 
         if (t1 > 0)
         {
             t = t1;
+
         }
         else
         {
-            t = t1;
+            t = t2;
         }
-
         intersect.setDoesIntersect(true);
         intersect.setT(t);
         Vector3 position = ray.getPosition().add(ray.getDirection().mul(t));
         Vector3 normal = position.sub(super.position).normalize();
         intersect.setIntersectRay(new Ray(position, normal));
-        intersect.print();
         return intersect;
     }
 
@@ -70,12 +73,12 @@ public class Sphere extends Shape
         System.out.println(this.radius);
     }
 
-    public float getRadius()
+    public double getRadius()
     {
         return radius;
     }
 
-    public void setRadius(float radius)
+    public void setRadius(double radius)
     {
         this.radius = radius;
     }

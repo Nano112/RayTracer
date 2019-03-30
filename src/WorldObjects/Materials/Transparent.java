@@ -1,20 +1,23 @@
 package WorldObjects.Materials;
 
+import MyMath.Vector.Vector3;
+
 public class Transparent extends Material
 {
-    private float refractionIndex;
+    private double refractionIndex;
 
-    public Transparent(float refractionIndex)
+    public Transparent(Vector3 albedo, double refractionIndex)
     {
+        super.albedo = albedo;
         this.refractionIndex = refractionIndex;
     }
 
-    public float getRefractionIndex()
+    public double getRefractionIndex()
     {
         return refractionIndex;
     }
 
-    public void setRefractionIndex(float refractionIndex)
+    public void setRefractionIndex(double refractionIndex)
     {
         this.refractionIndex = refractionIndex;
     }

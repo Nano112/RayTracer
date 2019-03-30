@@ -4,8 +4,8 @@ import MyMath.IntersectData;
 import MyMath.Ray;
 import MyMath.Vector.Vector3;
 import WorldObjects.LightSource;
-import WorldObjects.Materials.Material;
 import WorldObjects.Materials.Reflective;
+import WorldObjects.Materials.Transparent;
 import WorldObjects.Shapes.Shape;
 
 import java.util.List;
@@ -23,21 +23,24 @@ public class Scene
 
     public IntersectData getIntersect(Ray ray)
     {
-        IntersectData id = this.shapes.get(0).intersectWithRay(ray);
-        float closestT = id.getT();
+        IntersectData id;
         int closestIndex = 0;
-
-        for (int i = 1;i<this.shapes.size();++i)
+        double closestT = Double.MAX_VALUE;
+        //System.out.println(id.getT());
+        for (int i = 0; i<this.shapes.size(); ++i)
         {
             id = this.shapes.get(i).intersectWithRay(ray);
-            if(id.getDoesIntersect() && id.getT() < closestT)
+            if(id.getDoesIntersect() && (id.getT() < closestT))
             {
                 closestT = id.getT();
                 closestIndex = i;
             }
         }
         id = this.shapes.get(closestIndex).intersectWithRay(ray);
-        id.setObjectIndex(closestIndex);
+        if(id.getDoesIntersect())
+        {
+            id.setObjectIndex(closestIndex);
+        }
         return id;
     }
 
@@ -48,65 +51,80 @@ public class Scene
         {
             return color;
         }
-
         IntersectData id = getIntersect(ray);
         if (id.getDoesIntersect())
         {
-           id.print();
-        }
-
-
-        if (id.getDoesIntersect())
-        {
             Vector3 intensity;
-            if(this.shapes.get(id.getObjectIndex()).getMaterial() instanceof Reflective)
+            if(this.shapes.get(id.getObjectIndex()).getMaterial() instanceof Transparent)
+            {
+                double n1 = 1;
+                double n2 = ((Transparent) this.shapes.get(id.getObjectIndex()).getMaterial()).getRefractionIndex();
+                Vector3 transparentNormal = id.getIntersectRay().getDirection();
+                if (ray.getDirection().dot(transparentNormal) > 0)
+                {
+                    double temp = n1;
+                    n1 = n2;
+                    n2 = temp;
+                    transparentNormal = transparentNormal.mul(-1);
+                }
+                double radical = 1 - Math.sqrt(n1/n2) * (1- Math.sqrt(transparentNormal.dot(ray.getDirection())));
+                if (radical > 0)
+                {
+                    Vector3 refractedDirection = ray.getDirection().sub(ray.getDirection()).mul(transparentNormal.dot(transparentNormal)).mul(n1/n2).sub(transparentNormal).mul(Math.sqrt(radical));
+                    Ray refractedRay = new Ray(id.getIntersectRay().getPosition().sub(transparentNormal.mul(0.0001f)),refractedDirection);
+                    return getLuminosity(refractedRay,iterations + 1, maxIterations);
+                }
+            }
+            else if(this.shapes.get(id.getObjectIndex()).getMaterial() instanceof Reflective)
             {
                 Vector3 reflectionDirection =  ray.getDirection().sub(id.getIntersectRay().getDirection().mul(2*id.getIntersectRay().getDirection().dot(ray.getDirection())));
-                Ray reflectionRay = new Ray(id.getIntersectRay().getPosition().add(id.getIntersectRay().getDirection().mul(0.001f)), reflectionDirection);
+                Ray reflectionRay = new Ray(id.getIntersectRay().getPosition().add(id.getIntersectRay().getDirection().mul(0.0001f)), reflectionDirection);
                 return getLuminosity(reflectionRay, iterations + 1, maxIterations);
             }
             else
             {
-                System.out.println("1");
-                Ray lightRay = new Ray(id.getIntersectRay().getPosition().add(id.getIntersectRay().getDirection().mul(0.001f)),this.light.getPosition().sub(id.getIntersectRay().getPosition()).normalize());
+
+                Ray lightRay = new Ray(id.getIntersectRay().getPosition().add(id.getIntersectRay().getDirection().mul(0.0001f)),this.light.getPosition().sub(id.getIntersectRay().getPosition()).normalize());
                 IntersectData idClosestLight = getIntersect(lightRay);
-                if (false && idClosestLight.getDoesIntersect() && idClosestLight.getT()*idClosestLight.getT() < this.light.getPosition().sub(id.getIntersectRay().getPosition()).magnitudeSquared())
+                if (idClosestLight.getDoesIntersect() && ((idClosestLight.getT()*idClosestLight.getT()) < this.light.getPosition().sub(id.getIntersectRay().getPosition()).magnitudeSquared()))
                 {
                     return new Color(0, 0, 0);
-
                 }
                 else
                 {
-                    System.out.println("2");
-                    intensity = this.getShapes().get(idClosestLight.getObjectIndex()).getMaterial().getAlbedo().toVec().mul(this.light.getIntensity() * this.light.getPosition().sub(id.getIntersectRay().getPosition()).normalize().dot(id.getIntersectRay().getDirection())).div((float)Math.sqrt(this.light.getPosition().sub(id.getIntersectRay().getPosition()).magnitudeSquared()));
-                    intensity.print();
+                    Vector3 materialColor = this.getShapes().get(id.getObjectIndex()).getMaterial().getAlbedo();
+                    Vector3 A = materialColor.mul(this.light.getIntensity());
+                    double B = this.light.getPosition().sub(id.getIntersectRay().getPosition()).normalize().dot(id.getIntersectRay().getDirection());
+                    double C = (double)Math.sqrt(this.light.getPosition().sub(id.getIntersectRay().getPosition()).magnitudeSquared());
+                    intensity = A.mul(B/C);
                 }
-                color.setR( Math.min(255, Math.max(0, (int)Math.pow(intensity.getX(),1 / 2.2))));
-                color.setG( Math.min(255, Math.max(0, (int)Math.pow(intensity.getY(),1 / 2.2))));
-                color.setB( Math.min(255, Math.max(0, (int)Math.pow(intensity.getZ(),1 / 2.2))));
-                color.print();
+                color.setR((byte) Math.min(255, Math.max(0, (int)Math.pow(intensity.getX(),1 / 2.2))));
+                color.setG((byte) Math.min(255, Math.max(0, (int)Math.pow(intensity.getY(),1 / 2.2))));
+                color.setB((byte) Math.min(255, Math.max(0, (int)Math.pow(intensity.getZ(),1 / 2.2))));
                 return color;
             }
          }
      return new Color(0,0,0);
     }
 
-    public Image renderScene(int width, int height, float fov)
+
+    public Image renderScene(int width, int height, double fov)
     {
-        fov = (float) (fov * Math.PI / 180);
+        long start = System.currentTimeMillis();
+        fov = (double) (fov * Math.PI / 180);
         Image image = new Image(width, height);
         for (int x = 0; x < width; ++x)
         {
             for (int y = 0; y < height;++y)
             {
-                Vector3 direction = new Vector3(x - width / 2f, y - height / 2f, -width / (2 * (float)Math.tan(fov / 2))).normalize();
+                Vector3 direction = new Vector3(x - width / 2f, y - height / 2f, -width / (2 * (double)Math.tan(fov / 2))).normalize();
                 Ray ray = new Ray(new Vector3(0, 0 ,0), direction );
-                //ray.print();
                 Color color = getLuminosity(ray, 0,10);
-
-                image.setPixel(x, y, color);
+                image.setPixel(x, height-y-1, color);
             }
         }
+        long end = System.currentTimeMillis();
+        System.out.println("Frame took " + (end - start) + "ms");
         return image;
     }
 

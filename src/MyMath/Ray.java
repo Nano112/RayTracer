@@ -23,7 +23,7 @@ public class Ray
         System.out.println("Position");
         this.getPosition().print();
         System.out.println("Direction");
-        this.getPosition().print();
+        this.getDirection().print();
     }
 
     public Vector3 getPosition() {
