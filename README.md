@@ -13,4 +13,4 @@ As is it generates 360 scenes to compose an animation
 
 Here is an animation example shocasing opaque, reflective and transparent materials:
 
-![alt text](https://github.com/Nano112/RayTracer/blob/master/examples/scene.gif?raw=true)
+![Showcase scene](https://github.com/Nano112/RayTracer/blob/master/examples/scene.gif?raw=true)
