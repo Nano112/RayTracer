@@ -24,7 +24,6 @@ public class Image
     public void setPixel(int x, int y, Color color)
     {
         this.image.setRGB(x, y, color.rgbToHex());
-
     }
 
     public void save(String name) throws IOException
@@ -37,8 +36,8 @@ public class Image
             dir.mkdir();
         }
 
-        File outputFile = new File("outputFrames/"+name+".bmp");
-        ImageIO.write(this.image, "bmp", outputFile);
+        File outputFile = new File("outputFrames/"+name+".png");
+        ImageIO.write(this.image, "png", outputFile);
     }
 
     public int getWidth()

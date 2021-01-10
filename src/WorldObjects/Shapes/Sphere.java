@@ -55,6 +55,7 @@ public class Sphere extends Shape
         {
             t = t2;
         }
+
         intersect.setDoesIntersect(true);
         intersect.setT(t);
         Vector3 position = ray.getPosition().add(ray.getDirection().mul(t));
